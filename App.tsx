@@ -6,6 +6,7 @@ import {
     Button,
     SafeAreaView,
     StatusBar,
+    StatusBarStyle,
     StyleSheet,
     Text,
     View,
@@ -28,6 +29,7 @@ const getScreenOptions = ({route}) => ({
     ),
     tabBarActiveTintColor: 'tomato',
     tabBarInactiveTintColor: 'gray',
+    headerShown: true,
 });
 
 export default function App() {
@@ -65,13 +67,8 @@ function StatusBarTogglerView() {
     const changeStatusBarVisibility = () => setHidden(!hidden);
 
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar
-                animated={true}
-                backgroundColor="#61dafb"
-                barStyle={'default'}
-                hidden={hidden}
-            />
+        <View style={styles.container}>
+            <StatusBar {...{hidden, ...styles.statusBar}} />
             <Text style={styles.textStyle}>
                 StatusBar Visibility:{'\n'}
                 {hidden ? 'Hidden' : 'Visible'}
@@ -82,7 +79,7 @@ function StatusBarTogglerView() {
                     onPress={changeStatusBarVisibility}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -90,7 +87,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#ECF0F1',
+        backgroundColor: '#ffe0e0',
+    },
+    statusBar: {
+        animated: true,
+        backgroundColor: '#f080a0',
+        barStyle: 'default' as StatusBarStyle,
     },
     buttonsContainer: {
         padding: 10,
