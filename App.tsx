@@ -1,16 +1,23 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import React, {useState} from 'react';
+import * as React from 'react';
+import {StatusBar, StatusBarStyle, StyleSheet, View} from 'react-native';
 import {
     Button,
-    SafeAreaView,
-    StatusBar,
-    StatusBarStyle,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+    MD3LightTheme as DefaultTheme,
+    PaperProvider,
+    TextInput,
+} from 'react-native-paper';
+
+const theme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        primary: '#f080a0',
+        secondary: 'f0c0a0',
+    },
+};
 
 const Nav = createBottomTabNavigator();
 
@@ -34,17 +41,25 @@ const getScreenOptions = ({route}) => ({
 
 export default function App() {
     return (
+        <PaperProvider theme={theme}>
+            <InnerApp />
+        </PaperProvider>
+    );
+}
+
+function InnerApp() {
+    return (
         <NavigationContainer>
             <Nav.Navigator screenOptions={getScreenOptions}>
-                <Nav.Screen
-                    name="home"
-                    component={ButtonOnlyView}
-                    options={{title: 'Aloitusruutu'}}
-                />
                 <Nav.Screen
                     name="other"
                     component={StatusBarTogglerView}
                     options={{title: 'Toinen juttu'}}
+                />
+                <Nav.Screen
+                    name="home"
+                    component={ButtonOnlyView}
+                    options={{title: 'Aloitusruutu'}}
                 />
             </Nav.Navigator>
         </NavigationContainer>
@@ -54,30 +69,20 @@ export default function App() {
 function ButtonOnlyView({navigation}) {
     return (
         <View>
-            <Button
-                title="Avaa juttu"
-                onPress={() => navigation.navigate('other')}
-            />
+            <Button onPress={() => navigation.navigate('other')}>
+                Avaa juttu
+            </Button>
         </View>
     );
 }
 
 function StatusBarTogglerView() {
-    const [hidden, setHidden] = useState(false);
-    const changeStatusBarVisibility = () => setHidden(!hidden);
-
     return (
         <View style={styles.container}>
-            <StatusBar {...{hidden, ...styles.statusBar}} />
-            <Text style={styles.textStyle}>
-                StatusBar Visibility:{'\n'}
-                {hidden ? 'Hidden' : 'Visible'}
-            </Text>
+            <StatusBar {...styles.statusBar} />
             <View style={styles.buttonsContainer}>
-                <Button
-                    title="Toggle StatusBar"
-                    onPress={changeStatusBarVisibility}
-                />
+                <TextInput label="Ajon kuvaus" />
+                <Button mode='contained'>Aloita ajo</Button>
             </View>
         </View>
     );
@@ -93,6 +98,10 @@ const styles = StyleSheet.create({
         animated: true,
         backgroundColor: '#f080a0',
         barStyle: 'default' as StatusBarStyle,
+    },
+    textInput: {
+        paddingTop: 10,
+        paddingBottom: 10,
     },
     buttonsContainer: {
         padding: 10,
