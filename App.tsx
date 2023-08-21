@@ -15,7 +15,7 @@ const theme = {
     colors: {
         ...DefaultTheme.colors,
         primary: '#f080a0',
-        secondary: 'f0c0a0',
+        secondary: '#f5f850',
     },
 };
 
@@ -52,14 +52,14 @@ function InnerApp() {
         <NavigationContainer>
             <Nav.Navigator screenOptions={getScreenOptions}>
                 <Nav.Screen
-                    name="other"
-                    component={StatusBarTogglerView}
-                    options={{title: 'Toinen juttu'}}
-                />
-                <Nav.Screen
                     name="home"
                     component={ButtonOnlyView}
                     options={{title: 'Aloitusruutu'}}
+                />
+                <Nav.Screen
+                    name="other"
+                    component={StatusBarTogglerView}
+                    options={{title: 'Toinen juttu'}}
                 />
             </Nav.Navigator>
         </NavigationContainer>
@@ -82,7 +82,7 @@ function StatusBarTogglerView() {
             <StatusBar {...styles.statusBar} />
             <View style={styles.buttonsContainer}>
                 <TextInput label="Ajon kuvaus" />
-                <Button mode='contained'>Aloita ajo</Button>
+                <Button mode="contained">Aloita ajo</Button>
             </View>
         </View>
     );
