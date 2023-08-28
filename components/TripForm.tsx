@@ -1,14 +1,14 @@
 import * as React from 'react';
-import {View} from 'react-native';
-import {Button, SegmentedButtons, Text, TextInput} from 'react-native-paper';
+import {ScrollView} from 'react-native';
+import {Button, SegmentedButtons, TextInput} from 'react-native-paper';
 
-import { DateTimeField } from './DateTimeField';
+import {DateTimeField} from './DateTimeField';
 
 export default function TripForm() {
     const [vehicle, setVehicle] = React.useState('car1');
 
     return (
-        <View>
+        <ScrollView>
             <SegmentedButtons
                 value={vehicle}
                 onValueChange={setVehicle}
@@ -20,7 +20,10 @@ export default function TripForm() {
             <TextInput label="Ajon kuvaus" />
             <DateTimeField label="Aloitusaika" />
             <DateTimeField label="Lopetusaika" />
+            <TextInput label="Mittarilukema alussa" keyboardType="numeric" />
+            <TextInput label="Mittarilukema lopussa" keyboardType="numeric" />
+            <TextInput label="Reitin kuvaus" />
             <Button mode="contained">Tallenna</Button>
-        </View>
+        </ScrollView>
     );
 }
