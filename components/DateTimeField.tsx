@@ -8,7 +8,7 @@ import {getRoundedTime} from '../utils/timeUtils';
 type Props = {
     label: string;
     value?: Date | null;
-    onChange?: (x: Date) => void;
+    onChange?: (x: Date | null) => void;
 };
 
 export function DateTimeField({label, value: v, onChange}: Props) {
