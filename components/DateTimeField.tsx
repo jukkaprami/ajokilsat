@@ -1,11 +1,11 @@
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import * as React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 
 import {getRoundedTime} from '../utils/timeUtils';
 
-export function DateTimeField() {
+export function DateTimeField({label}: {label: string}) {
     const [value, setValue] = React.useState(getRoundedTime(60));
 
     function openPicker(
@@ -32,9 +32,17 @@ export function DateTimeField() {
         });
 
     return (
-        <View>
-            <Text>{value.toLocaleString()}</Text>
-            <Button onPress={openDatePicker}>Valitse alkuaika</Button>
+        <View style={style.container}>
+            <Text variant="labelLarge">{label}</Text>
+            <Button onPress={openDatePicker}>{value.toLocaleString()}</Button>
         </View>
     );
 }
+
+const style = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent:'space-around'
+    }
+});

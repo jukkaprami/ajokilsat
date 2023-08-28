@@ -18,8 +18,8 @@ export default function TripForm() {
                 ]}
             />
             <TextInput label="Ajon kuvaus" />
-            <Text>Alku:</Text>
-            <DateTimeField />
+            <DateTimeField label="Aloitusaika" />
+            <DateTimeField label="Lopetusaika" />
             <Button mode="contained">Tallenna</Button>
         </View>
     );
