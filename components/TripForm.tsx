@@ -1,26 +1,36 @@
-import * as React from 'react';
 import {useState} from 'react';
 import {ScrollView} from 'react-native';
 import {Button, SegmentedButtons, TextInput} from 'react-native-paper';
 
+import {Trip} from '../types/Trip';
 import {cleanNumberText, parseNumber} from '../utils/numbers';
 import {DateTimeField} from './DateTimeField';
-import {Trip} from '../types/Trip';
 
 type Props = {
-    onSubmit: (trip: Trip) => void;
+    initialValue?: Trip;
+    onSubmit?: (trip: Trip) => void;
 };
 
-export default function TripForm({onSubmit}: Props) {
-    const [vehicle, setVehicle] = useState('car1');
-    const [description, setDescription] = useState('');
+export default function TripForm({onSubmit, initialValue: iv}: Props) {
+    const defaultCar = 'car1';
+
+    const [vehicle, setVehicle] = useState(iv?.vehicleId ?? defaultCar);
+    const [description, setDescription] = useState(iv?.description ?? '');
     const [timestampAtBegin, setTimestampAtBegin] = useState<Date | null>(
-        null
+        iv?.timestampAtBegin ?? null
     );
-    const [timestampAtEnd, setTimestampAtEnd] = useState<Date | null>(null);
-    const [odometerAtBegin, setOdometerAtBegin] = useState<string>('');
-    const [odometerAtEnd, setOdometerAtEnd] = useState<string>('');
-    const [routeDescription, setRouteDescription] = useState('');
+    const [timestampAtEnd, setTimestampAtEnd] = useState<Date | null>(
+        iv?.timestampAtEnd ?? null
+    );
+    const [odometerAtBegin, setOdometerAtBegin] = useState<string>(
+        iv?.odometerAtBegin?.toString() ?? ''
+    );
+    const [odometerAtEnd, setOdometerAtEnd] = useState<string>(
+        iv?.odometerAtEnd?.toString() ?? ''
+    );
+    const [routeDescription, setRouteDescription] = useState(
+        iv?.routeDescription ?? ''
+    );
 
     function submitForm() {
         const trip: Trip = {
@@ -32,8 +42,8 @@ export default function TripForm({onSubmit}: Props) {
             odometerAtEnd: parseNumber(odometerAtEnd),
             routeDescription,
         };
-        console.log(trip);
-        //onSubmit(trip);
+        onSubmit?.(trip);
+        console.debug(trip);
     }
 
     return (
