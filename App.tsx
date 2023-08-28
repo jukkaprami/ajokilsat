@@ -51,7 +51,7 @@ export default function App() {
 function InnerApp() {
     return (
         <NavigationContainer>
-            <Nav.Navigator screenOptions={getScreenOptions}>
+            <Nav.Navigator screenOptions={getScreenOptions} initialRouteName='other'>
                 <Nav.Screen
                     name="home"
                     component={ButtonOnlyView}
