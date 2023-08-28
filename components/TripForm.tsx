@@ -1,28 +1,22 @@
 import * as React from 'react';
-import {ScrollView} from 'react-native';
-import {Button, SegmentedButtons, TextInput} from 'react-native-paper';
+import { useState } from 'react';
+import { ScrollView } from 'react-native';
+import { Button, SegmentedButtons, TextInput } from 'react-native-paper';
 
-import {DateTimeField} from './DateTimeField';
-
-type Trip = {
-    vehicleId: string;
-    description: string;
-    timestampAtBegin: Date;
-    timestampAtEnd: Date;
-    odometerAtBegin: number;
-    odometerAtEnd: number;
-    routeDescription?: string;
-    // track?: TrackPoint[];
-};
+import { cleanNumberText, parseNumber } from '../utils/numbers';
+import { DateTimeField } from './DateTimeField';
+import { Trip } from '../types/Trip';
 
 type Props = {
     onSubmit: (trip: Trip) => void;
 };
 
 export default function TripForm({onSubmit}: Props) {
-    const [vehicle, setVehicle] = React.useState('car1');
-    const [description, setDescription] = React.useState('');
-    const [routeDescription, setRouteDescription] = React.useState('');
+    const [vehicle, setVehicle] = useState('car1');
+    const [description, setDescription] = useState('');
+    const [routeDescription, setRouteDescription] = useState('');
+    const [odometerAtBegin, setOdometerAtBegin] = useState<string>('');
+    const [odometerAtEnd, setOdometerAtEnd] = useState<string>('');
 
     function submitForm() {
         const trip: Trip = {
@@ -30,8 +24,8 @@ export default function TripForm({onSubmit}: Props) {
             description,
             timestampAtBegin: new Date(),
             timestampAtEnd: new Date(),
-            odometerAtBegin: 0,
-            odometerAtEnd: 0,
+            odometerAtBegin: parseNumber(odometerAtBegin),
+            odometerAtEnd: parseNumber(odometerAtEnd),
             routeDescription,
         };
         console.log(trip);
@@ -55,8 +49,18 @@ export default function TripForm({onSubmit}: Props) {
             />
             <DateTimeField label="Aloitusaika" />
             <DateTimeField label="Lopetusaika" />
-            <TextInput label="Mittarilukema alussa" keyboardType="numeric" />
-            <TextInput label="Mittarilukema lopussa" keyboardType="numeric" />
+            <TextInput
+                label="Mittarilukema alussa"
+                keyboardType="numeric"
+                value={odometerAtBegin}
+                onChangeText={(x) => setOdometerAtBegin(cleanNumberText(x))}
+            />
+            <TextInput
+                label="Mittarilukema lopussa"
+                keyboardType="numeric"
+                value={odometerAtEnd}
+                onChangeText={(x) => setOdometerAtEnd(cleanNumberText(x))}
+            />
             <TextInput
                 label="Reitin kuvaus"
                 value={routeDescription}
