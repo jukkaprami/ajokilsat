@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { ScrollView } from 'react-native';
-import { Button, SegmentedButtons, TextInput } from 'react-native-paper';
+import {useState} from 'react';
+import {ScrollView} from 'react-native';
+import {Button, SegmentedButtons, TextInput} from 'react-native-paper';
 
-import { cleanNumberText, parseNumber } from '../utils/numbers';
-import { DateTimeField } from './DateTimeField';
-import { Trip } from '../types/Trip';
+import {cleanNumberText, parseNumber} from '../utils/numbers';
+import {DateTimeField} from './DateTimeField';
+import {Trip} from '../types/Trip';
 
 type Props = {
     onSubmit: (trip: Trip) => void;
@@ -14,16 +14,20 @@ type Props = {
 export default function TripForm({onSubmit}: Props) {
     const [vehicle, setVehicle] = useState('car1');
     const [description, setDescription] = useState('');
-    const [routeDescription, setRouteDescription] = useState('');
+    const [timestampAtBegin, setTimestampAtBegin] = useState<Date | null>(
+        null
+    );
+    const [timestampAtEnd, setTimestampAtEnd] = useState<Date | null>(null);
     const [odometerAtBegin, setOdometerAtBegin] = useState<string>('');
     const [odometerAtEnd, setOdometerAtEnd] = useState<string>('');
+    const [routeDescription, setRouteDescription] = useState('');
 
     function submitForm() {
         const trip: Trip = {
             vehicleId: vehicle,
             description,
-            timestampAtBegin: new Date(),
-            timestampAtEnd: new Date(),
+            timestampAtBegin,
+            timestampAtEnd,
             odometerAtBegin: parseNumber(odometerAtBegin),
             odometerAtEnd: parseNumber(odometerAtEnd),
             routeDescription,
@@ -47,8 +51,16 @@ export default function TripForm({onSubmit}: Props) {
                 value={description}
                 onChangeText={setDescription}
             />
-            <DateTimeField label="Aloitusaika" />
-            <DateTimeField label="Lopetusaika" />
+            <DateTimeField
+                label="Aloitusaika"
+                value={timestampAtBegin}
+                onChange={setTimestampAtBegin}
+            />
+            <DateTimeField
+                label="Lopetusaika"
+                value={timestampAtEnd}
+                onChange={setTimestampAtEnd}
+            />
             <TextInput
                 label="Mittarilukema alussa"
                 keyboardType="numeric"

@@ -5,36 +5,46 @@ import {Button, Text} from 'react-native-paper';
 
 import {getRoundedTime} from '../utils/timeUtils';
 
-export function DateTimeField({label}: {label: string}) {
-    const [value, setValue] = React.useState(getRoundedTime(60));
+type Props = {
+    label: string;
+    value?: Date | null;
+    onChange?: (x: Date) => void;
+};
+
+export function DateTimeField({label, value: v, onChange}: Props) {
+    const [value, setValue] = React.useState(v);
+    const defaultValue = getRoundedTime(60);
 
     function openPicker(
         mode: 'date' | 'time',
         initialValue: Date,
-        callback: (x: Date) => void
+        callback?: (x: Date) => void
     ) {
         DateTimePickerAndroid.open({
             mode,
-            value: initialValue,
+            value: initialValue ?? defaultValue,
             onChange: (event: {type: string}, x: Date) => {
-                if (event.type === 'set') callback(x);
+                if (event.type === 'set') {
+                    setValue(x);
+                    onChange?.(x);
+                    callback?.(x);
+                }
             },
             is24Hour: true,
         });
     }
 
     const openTimePicker = (initialValue: Date) =>
-        openPicker('time', initialValue, (x) => setValue(x));
+        openPicker('time', initialValue);
     const openDatePicker = () =>
-        openPicker('date', value, (x) => {
-            setValue(x);
-            openTimePicker(x);
-        });
+        openPicker('date', value, (x) => openTimePicker(x));
+
+    const valueText = value?.toLocaleString() ?? '-------';
 
     return (
         <View style={style.container}>
             <Text variant="labelLarge">{label}</Text>
-            <Button onPress={openDatePicker}>{value.toLocaleString()}</Button>
+            <Button onPress={openDatePicker}>{valueText}</Button>
         </View>
     );
 }
@@ -43,6 +53,6 @@ const style = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:'space-around'
-    }
+        justifyContent: 'space-around',
+    },
 });
