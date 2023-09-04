@@ -1,62 +1,93 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text} from 'react-native';
+import {Button, Modal, Portal} from 'react-native-paper';
+
+import {Trip} from '../types/Trip';
+import TripForm from './TripForm';
 
 export default function TripList() {
+    const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
+    const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+
+    function ListRow({item: trip}: {item: Trip}) {
+        return (
+            <Button
+                onPress={() => {
+                    setModalIsVisible(true);
+                    setSelectedTrip(trip);
+                }}
+            >
+                <Text style={styles.item}>{trip.description}</Text>
+            </Button>
+        );
+    }
+
+    function TripFormModal() {
+        return (
+            <Modal
+                visible={modalIsVisible}
+                onDismiss={() => setModalIsVisible(false)}
+                contentContainerStyle={styles.container}
+            >
+                <TripForm initialValue={selectedTrip} />
+            </Modal>
+        );
+    }
+
     return (
-        <FlatList
-            data={nimet}
-            renderItem={ListRow}
-        />
+        <>
+            <FlatList data={trips} renderItem={ListRow} style={styles.list} />
+            <Portal>
+                <TripFormModal />
+            </Portal>
+        </>
     );
 }
 
-type ItemType = {
-    key: string;
-};
-
-function ListRow({item}: {item: ItemType}) {
-    return <Text style={styles.item}>{item.key}</Text>;
-}
-
 const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+        backgroundColor: 'white',
+    },
+    list: {},
     item: {
-        padding: 10,
-        fontSize: 18,
-        height: 44,
+        padding: 2,
+        fontSize: 20,
+        height: 40,
     },
 });
 
-const nimet: ItemType[] = [
-    {key: 'Devin Testinen'},
-    {key: 'Dan Testinen'},
-    {key: 'Dominic Testinen'},
-    {key: 'Jackson Testinen'},
-    {key: 'James Testinen'},
-    {key: 'Joel Testinen'},
-    {key: 'John Testinen'},
-    {key: 'Jillian Testinen'},
-    {key: 'Jimmy Testinen'},
-    {key: 'Julie Testinen'},
-    {key: 'Kalle Testinen'},
-    {key: 'Laura Testinen'},
-    {key: 'Matti Testinen'},
-    {key: 'Noora Testinen'},
-    {key: 'Olli Testinen'},
-    {key: 'Petra Testinen'},
-    {key: 'Devin Kokeilija'},
-    {key: 'Dan Kokeilija'},
-    {key: 'Dominic Kokeilija'},
-    {key: 'Jackson Kokeilija'},
-    {key: 'James Kokeilija'},
-    {key: 'Joel Kokeilija'},
-    {key: 'John Kokeilija'},
-    {key: 'Jillian Kokeilija'},
-    {key: 'Jimmy Kokeilija'},
-    {key: 'Julie Kokeilija'},
-    {key: 'Kalle Kokeilija'},
-    {key: 'Laura Kokeilija'},
-    {key: 'Matti Kokeilija'},
-    {key: 'Noora Kokeilija'},
-    {key: 'Olli Kokeilija'},
-    {key: 'Petra Kokeilija'},
+const trips: Trip[] = [
+    {vehicleId: 'car1', description: 'Käynti Devin Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Dan Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Dominic Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Jackson Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti James Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Joel Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti John Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Jillian Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Jimmy Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Julie Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Kalle Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Laura Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Matti Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Noora Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Olli Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Petra Testisen luona'},
+    {vehicleId: 'car1', description: 'Käynti Devin Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Dan Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Dominic Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Jackson Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti James Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Joel Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti John Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Jillian Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Jimmy Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Julie Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Kalle Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Laura Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Matti Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Noora Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Olli Kokeilijan luona'},
+    {vehicleId: 'car1', description: 'Käynti Petra Kokeilijan luona'},
 ];

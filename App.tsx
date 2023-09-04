@@ -52,10 +52,7 @@ export default function App() {
 function InnerApp() {
     return (
         <NavigationContainer>
-            <Nav.Navigator
-                screenOptions={getScreenOptions}
-                // initialRouteName="other"
-            >
+            <Nav.Navigator screenOptions={getScreenOptions}>
                 <Nav.Screen
                     name="home"
                     component={TripList}
