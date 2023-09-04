@@ -9,9 +9,14 @@ import {DateTimeField} from './DateTimeField';
 type Props = {
     initialValue?: Trip | null;
     onSubmit?: (trip: Trip) => void;
+    onDelete?: () => void;
 };
 
-export default function TripForm({onSubmit, initialValue: iv}: Props) {
+export default function TripForm({
+    onSubmit,
+    initialValue: iv,
+    onDelete,
+}: Props) {
     const defaultCar = 'car1';
 
     const [vehicle, setVehicle] = useState(iv?.vehicleId ?? defaultCar);
@@ -88,9 +93,16 @@ export default function TripForm({onSubmit, initialValue: iv}: Props) {
                 value={routeDescription}
                 onChangeText={setRouteDescription}
             />
-            <Button onPress={submitForm} mode="contained">
-                Tallenna
-            </Button>
+            {onSubmit ? (
+                <Button onPress={submitForm} mode="contained">
+                    Tallenna
+                </Button>
+            ) : null}
+            {onDelete ? (
+                <Button onPress={() => onDelete()} mode="outlined">
+                    Poista
+                </Button>
+            ) : null}
         </ScrollView>
     );
 }

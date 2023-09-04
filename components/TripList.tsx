@@ -8,7 +8,7 @@ import TripForm from './TripForm';
 export default function TripList() {
     const [shownIndex, setShownIndex] = useState<number | null>(null);
 
-    function ListRow({item: trip, index}: {item: Trip, index: number}) {
+    function ListRow({item: trip, index}: {item: Trip; index: number}) {
         return (
             <Button onPress={() => setShownIndex(index)}>
                 <Text style={styles.item}>{trip.description}</Text>
@@ -17,7 +17,7 @@ export default function TripList() {
     }
 
     function TripFormModal() {
-        const shownTrip = (shownIndex !== null) ? trips[shownIndex] : null;
+        const shownTrip = shownIndex !== null ? trips[shownIndex] : null;
         return (
             <Modal
                 visible={shownIndex !== null ? true : false}
@@ -27,8 +27,13 @@ export default function TripList() {
                 <TripForm
                     initialValue={shownTrip}
                     onSubmit={(trip: Trip) => {
-                        console.log("Tallennettu matka:", shownIndex, trip);
+                        console.log('Tallennettu matka:', shownIndex, trip);
                         trips[shownIndex] = trip;
+                        setShownIndex(null);
+                    }}
+                    onDelete={() => {
+                        console.log('Poistetaan', shownIndex);
+                        trips.splice(shownIndex, 1); // Remove item at shownIndex
                         setShownIndex(null);
                     }}
                 />
