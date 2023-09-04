@@ -6,30 +6,32 @@ import {Trip} from '../types/Trip';
 import TripForm from './TripForm';
 
 export default function TripList() {
-    const [modalIsVisible, setModalIsVisible] = useState<boolean>(false);
-    const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+    const [shownIndex, setShownIndex] = useState<number | null>(null);
 
-    function ListRow({item: trip}: {item: Trip}) {
+    function ListRow({item: trip, index}: {item: Trip, index: number}) {
         return (
-            <Button
-                onPress={() => {
-                    setModalIsVisible(true);
-                    setSelectedTrip(trip);
-                }}
-            >
+            <Button onPress={() => setShownIndex(index)}>
                 <Text style={styles.item}>{trip.description}</Text>
             </Button>
         );
     }
 
     function TripFormModal() {
+        const shownTrip = (shownIndex !== null) ? trips[shownIndex] : null;
         return (
             <Modal
-                visible={modalIsVisible}
-                onDismiss={() => setModalIsVisible(false)}
+                visible={shownIndex !== null ? true : false}
+                onDismiss={() => setShownIndex(null)}
                 contentContainerStyle={styles.container}
             >
-                <TripForm initialValue={selectedTrip} />
+                <TripForm
+                    initialValue={shownTrip}
+                    onSubmit={(trip: Trip) => {
+                        console.log("Tallennettu matka:", shownIndex, trip);
+                        trips[shownIndex] = trip;
+                        setShownIndex(null);
+                    }}
+                />
             </Modal>
         );
     }

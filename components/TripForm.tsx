@@ -7,7 +7,7 @@ import {cleanNumberText, parseNumber} from '../utils/numbers';
 import {DateTimeField} from './DateTimeField';
 
 type Props = {
-    initialValue?: Trip;
+    initialValue?: Trip | null;
     onSubmit?: (trip: Trip) => void;
 };
 
