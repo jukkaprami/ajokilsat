@@ -12,6 +12,7 @@ type Props = {
 export default function NewTripForm({onSubmit}: Props) {
     const defaultCar = 'car1';
 
+    const [id, setId] = useState(iv?.id ?? newID());
     const [vehicle, setVehicle] = useState(defaultCar);
     const [description, setDescription] = useState('');
     const [odometerAtBegin, setOdometerAtBegin] = useState<string>('');
