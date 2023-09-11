@@ -42,6 +42,7 @@ const getScreenOptions = ({route}) => ({
 });
 
 export default function App() {
+    
     return (
         <PaperProvider theme={theme}>
             <InnerApp />
@@ -59,13 +60,17 @@ function InnerApp() {
                     options={{title: 'Aloitusruutu'}}
                 />
                 <Nav.Screen
-                    name="other"
-                    component={TripForm}
+                    name="newTrip"
+                    component={NewTripScreen}
                     options={{title: 'Uusi matka'}}
                 />
             </Nav.Navigator>
         </NavigationContainer>
     );
+}
+
+function NewTripScreen{
+    return <NewTripCreator onStarted={() => NavigationContainer.navigate('home')} />;
 }
 
 function ButtonOnlyView({navigation}) {
