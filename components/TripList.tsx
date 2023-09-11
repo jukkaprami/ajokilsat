@@ -3,16 +3,18 @@ import {FlatList, StyleSheet, Text} from 'react-native';
 import {Button, Modal, Portal} from 'react-native-paper';
 
 import {Trip} from '../types/Trip';
-import {deleteTrip, loadTrips, saveTrips} from '../utils/store';
-import Tripfrom from './Tripform'
+import {deleteTrip, loadTrips, saveTrip} from '../utils/store';
+import TripForm from './TripForm';
 
 export default function TripList() {
+    const trips = loadTrips();  // TODO: Lataa vain jos ei ole vielä ladattu
+
     const [shownIndex, setShownIndex] = useState<number | null>(null);
 
     function ListRow({item: trip, index}: {item: Trip; index: number}) {
         return (
-            <Button onPress={() => setShownIndex(index)}>
-                <Text style={styles.item}>{trip.description}</Text>
+            <Button onPress={() => setShownIndex(index)} style={styles.item}>
+                <Text style={styles.itemText}>{trip.description}</Text>
             </Button>
         );
     }
@@ -28,13 +30,13 @@ export default function TripList() {
                 <TripForm
                     initialValue={shownTrip}
                     onSubmit={(trip: Trip) => {
-                        console.log('Tallennettu matka:', shownIndex, trip);
-                        saveTrip[Trip];
+                        console.log('Tallennetaan matka:', shownIndex, trip);
+                        saveTrip(trip);
                         setShownIndex(null);
                     }}
                     onDelete={() => {
                         console.log('Poistetaan', shownIndex);
-                        deletetrip{shownTrip};
+                        deleteTrip(shownTrip);
                         setShownIndex(null);
                     }}
                 />
@@ -54,15 +56,15 @@ export default function TripList() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        padding: 10,
         backgroundColor: 'white',
     },
     list: {},
     item: {
-        padding: 2,
-        fontSize: 20,
-        height: 40,
+        padding: 4,
+        height: 44,
+    },
+    itemText: {
+        fontSize: 18,
     },
 });
-
-

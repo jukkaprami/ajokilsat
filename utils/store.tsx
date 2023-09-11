@@ -1,182 +1,187 @@
-import { Trip } from "../types/Trip";
+import {Trip} from '../types/Trip';
+import {newId} from './newId';
 
-function getTrips(): Trip[] {
-        return[];
+export function loadTrips(): Trip[] {
+    return trips;
 }
 
-export function saveTrip(trip:Trip): void {
-    trips.findIndex((x) => x.id == trip.id);
-    if (index < 0) { // Ei löyntynyt id:llä => Uusi matka
-    trips.push; // Lisätään annettu trip listan trips loppuun
-    }   else {
-    trips[index] = trip; // Päivitetään ko. indexisissä olevaa trippiä
+export function saveTrip(trip: Trip): void {
+    const index = trips.findIndex((x) => x.id === trip.id);
+    if (index < 0) {
+        // Ei löytynyt id:llä => Uusi matka
+        trips.push(trip); // Lisätään annettu trip listan trips loppuun
+    } else {
+        trips[index] = trip; // Päivitetään ko. indexissä olevaa trippiä
     }
 }
 
-export function deletetrip({id}: {id: string}): void {
-    const index = trips.findIndex((x) =>x.id === id);
+export function deleteTrip({id}: {id: string}): void {
+    const index = trips.findIndex((x) => x.id === id);
     if (index < 0) {
         throw new Error(`Matkaa id:llä ${id} ei löydy`);
     }
-    trips.splice(index, 1); // Poista 1 alkio kohdasta lindex
-}
-
+    trips.splice(index, 1); // Poista 1 alkio kohdasta index
 }
 
 const trips: Trip[] = [
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Devin Testisen luona'},
-
+        description: 'Käynti Devin Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Dan Testisen luona'},
-
+        description: 'Käynti Dan Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Dominic Testisen luona'},
-
+        description: 'Käynti Dominic Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Jackson Testisen luona'},
-
+        description: 'Käynti Jackson Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti James Testisen luona'},
-
+        description: 'Käynti James Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Joel Testisen luona'},
+        description: 'Käynti Joel Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti John Testisen luona'},
-
+        description: 'Käynti John Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Jillian Testisen luona'},
-
+        description: 'Käynti Jillian Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Jimmy Testisen luona'},
-
+        description: 'Käynti Jimmy Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Julie Testisen luona'},
-
+        description: 'Käynti Julie Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Kalle Testisen luona'},
-
+        description: 'Käynti Kalle Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Laura Testisen luona'},
-
+        description: 'Käynti Laura Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Matti Testisen luona'},
-
+        description: 'Käynti Matti Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Noora Testisen luona'},
-
+        description: 'Käynti Noora Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Olli Testisen luona'},
-
+        description: 'Käynti Olli Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Petra Testisen luona'},
-
+        description: 'Käynti Petra Testisen luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Devin Kokeilijan luona'},
-
-    {
-        id: newId(),
-         vehicleId: 'car1',
-        description: 'Käynti Dan Kokeilijan luona'},
-
+        description: 'Käynti Devin Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Dominic Kokeilijan luona'},
-
+        description: 'Käynti Dan Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Jackson Kokeilijan luona'},
-
+        description: 'Käynti Dominic Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti James Kokeilijan luona'},
-
+        description: 'Käynti Jackson Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Joel Kokeilijan luona'},
-
+        description: 'Käynti James Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti John Kokeilijan luona'},
+        description: 'Käynti Joel Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Jillian Kokeilijan luona'},
-
+        description: 'Käynti John Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Jimmy Kokeilijan luona'},
-
+        description: 'Käynti Jillian Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Julie Kokeilijan luona'},
-
+        description: 'Käynti Jimmy Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Kalle Kokeilijan luona'},
-
+        description: 'Käynti Julie Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Laura Kokeilijan luona'},
-
+        description: 'Käynti Kalle Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Matti Kokeilijan luona'},
-
+        description: 'Käynti Laura Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Noora Kokeilijan luona'},
+        description: 'Käynti Matti Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Olli Kokeilijan luona'},
+        description: 'Käynti Noora Kokeilijan luona',
+    },
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Petra Kokeilijan luona'},
+        description: 'Käynti Olli Kokeilijan luona',
+    },
+    {
+        id: newId(),
+        vehicleId: 'car1',
+        description: 'Käynti Petra Kokeilijan luona',
+    },
 ];

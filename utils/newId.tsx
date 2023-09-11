@@ -1,5 +1,6 @@
 let counter = 0;
 
-function newID(): string {
+export function newId() {
     ++counter;
-    return `${new Date().getTime()}-${Math.random}()}`}
+    return `${new Date().getTime()}-${counter}-${Math.random()}`;
+}

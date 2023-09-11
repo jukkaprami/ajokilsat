@@ -1,5 +1,5 @@
 export type Trip = {
-    id: string; 
+    id: string;
     vehicleId: string;
     description: string;
     timestampAtBegin?: Date | null;

@@ -3,6 +3,7 @@ import {ScrollView} from 'react-native';
 import {Button, SegmentedButtons, TextInput} from 'react-native-paper';
 
 import {Trip} from '../types/Trip';
+import {newId} from '../utils/newId';
 import {cleanNumberText, parseNumber} from '../utils/numbers';
 
 type Props = {
@@ -12,7 +13,6 @@ type Props = {
 export default function NewTripForm({onSubmit}: Props) {
     const defaultCar = 'car1';
 
-    const [id, setId] = useState(iv?.id ?? newID());
     const [vehicle, setVehicle] = useState(defaultCar);
     const [description, setDescription] = useState('');
     const [odometerAtBegin, setOdometerAtBegin] = useState<string>('');
@@ -20,6 +20,7 @@ export default function NewTripForm({onSubmit}: Props) {
 
     function submitForm() {
         const trip: Trip = {
+            id: newId(),
             vehicleId: vehicle,
             description,
             timestampAtBegin: new Date(),
