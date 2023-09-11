@@ -52,7 +52,7 @@ const trips: Trip[] = [
     {
         id: newId(),
         vehicleId: 'car1',
-        description: 'Käynti Joel Testisen luona',
+        description: 'Käynti Janne Testisen luona',
     },
     {
         id: newId(),
