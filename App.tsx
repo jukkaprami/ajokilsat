@@ -2,14 +2,12 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
-import {View} from 'react-native';
 import {
-    Button,
     MD3LightTheme as DefaultTheme,
     PaperProvider,
 } from 'react-native-paper';
 
-import TripForm from './components/TripForm';
+import NewTripCreator from './components/NewTripCreator';
 import TripList from './components/TripList';
 
 const theme = {
@@ -25,7 +23,7 @@ const Nav = createBottomTabNavigator();
 
 const tabIcons = {
     home: ['ios-home', 'ios-home-outline'],
-    other: ['ios-car', 'ios-car-outline'],
+    newTrip: ['ios-car', 'ios-car-outline'],
 };
 
 const getScreenOptions = ({route}) => ({
@@ -42,7 +40,6 @@ const getScreenOptions = ({route}) => ({
 });
 
 export default function App() {
-    
     return (
         <PaperProvider theme={theme}>
             <InnerApp />
@@ -69,16 +66,6 @@ function InnerApp() {
     );
 }
 
-function NewTripScreen{
-    return <NewTripCreator onStarted={() => NavigationContainer.navigate('home')} />;
-}
-
-function ButtonOnlyView({navigation}) {
-    return (
-        <View>
-            <Button onPress={() => navigation.navigate('other')}>
-                Syötä matka
-            </Button>
-        </View>
-    );
+function NewTripScreen({navigation}) {
+    return <NewTripCreator onStarted={() => navigation.navigate('home')} />;
 }
