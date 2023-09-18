@@ -2,6 +2,23 @@ import {Trip} from '../types/Trip';
 import {newId} from './newId';
 
 export function loadTrips(): Trip[] {
+    // Pakota trips muuttuja vaihtumaan niin, että React huomaa sen
+    // muuttuneen.
+    trips = [...trips];
+
+    return trips;
+}
+
+export function saveTrip(trip: Trip): void {
+    const index = trips.findIndex((x) => x.id === trip.id);
+    if (index < 0) {
+        // Ei löytynyt id:llä => Uusi matka
+        trips.unshift(trip); // Lisätään annettu trip listan trips alkuun
+    } else {
+        trips[index] = trip; // Päivitetään ko. indexissä olevaa trippiä
+    }
+
+    // Järjestä tripit aloitusajan tai id:n mukaan
     trips.sort((tripA: Trip, tripB: Trip) => {
         const a = tripA.timestampAtBegin ?? null;
         const b = tripB.timestampAtBegin ?? null;
@@ -14,22 +31,6 @@ export function loadTrips(): Trip[] {
         }
         return a > b ? -1 : 1;
     });
-
-    // Pakota trips muuttuja vaihtumaan niin, että React huomaa sen
-    // muuttuneen.
-    trips = [...trips];
-
-    return trips;
-}
-
-export function saveTrip(trip: Trip): void {
-    const index = trips.findIndex((x) => x.id === trip.id);
-    if (index < 0) {
-        // Ei löytynyt id:llä => Uusi matka
-        trips.push(trip); // Lisätään annettu trip listan trips loppuun
-    } else {
-        trips[index] = trip; // Päivitetään ko. indexissä olevaa trippiä
-    }
 }
 
 export function deleteTrip({id}: {id: string}): void {
