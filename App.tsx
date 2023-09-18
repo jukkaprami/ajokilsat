@@ -41,7 +41,7 @@ const getScreenOptions = ({route}) => ({
     headerShown: true,
 });
 
-export default function App() {
+export default function App(){
     return (
         <PaperProvider theme={theme}>
             <InnerApp />
@@ -50,23 +50,28 @@ export default function App() {
 }
 
 function InnerApp() {
-    const [trips, setTrips] = React.useState<Trip[]>(loadTrips());
+    const [trips, setTrips] = React.useState<Trip[] | null>([]);
 
-    function reloadTrips() {
+    async function reloadTrips() {
         setTrips(loadTrips());
     }
+
+    React.useEffect(() => {
+       reloadTrips();
+
+    });
 
     function TripListScreen() {
         return (
             <TripList
                 trips={trips}
-                saveTrip={(trip: Trip) => {
-                    saveTrip(trip);
-                    reloadTrips();
+                saveTrip={async(trip: Trip) => {
+                    await saveTrip(trip);
+                    await reloadTrips();
                 }}
                 deleteTrip={(trip: Trip) => {
-                    deleteTrip(trip);
-                    reloadTrips();
+                    await deleteTrip(trip);
+                    await reloadTrips();
                 }}
             />
         );

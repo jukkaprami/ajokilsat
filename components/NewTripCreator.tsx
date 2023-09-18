@@ -8,16 +8,16 @@ type Props = {
     onSubmit?: (trip: Trip) => void;
 };
 
-export default function NewTripCreator({onSubmit}: Props) {
+export async default function NewTripCreator({onSubmit}: Props) {
     const [latestTripId, setLatestTripId] = useState<string | null>(null);
 
     return (
         <ScrollView>
             <NewTripForm
                 key={latestTripId ?? ''}  // Vaihda Form aina kun tallennetaan
-                onSubmit={(trip: Trip) => {
-                    saveTrip(trip);
+                onSubmit={aynsc(trip: Trip) => {
                     setLatestTripId(trip.id);
+                    
                     onSubmit?.(trip);
                 }}
             />
