@@ -5,6 +5,12 @@ export function loadTrips(): Trip[] {
     trips.sort((a: Trip, b: Trip) => {
         return a.id > b.id ? -1 : a.id == b.id ? 0 : 1;
     });
+
+    // Pakota trips muuttuja vaihtumaan niin, että React huomaa sen
+    // Muuttuneen.
+
+    trips = [...trips]; 
+    
     return trips;
 }
 
