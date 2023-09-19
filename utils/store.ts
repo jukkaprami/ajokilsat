@@ -1,9 +1,7 @@
-import * as filesystem from 'expo-file-system';
-
 import {Trip} from '../types/Trip';
 import {newId} from './newId';
 
-export async function loadTrips(): Trip[] Promise<void>;{
+export function loadTrips(): Trip[] {
     // Pakota trips muuttuja vaihtumaan niin, että React huomaa sen
     // muuttuneen.
     trips = [...trips];
@@ -11,7 +9,7 @@ export async function loadTrips(): Trip[] Promise<void>;{
     return trips;
 }
 
-export async function saveTrip(trip: Trip): Promise<void>;  {
+export function saveTrip(trip: Trip): void {
     const index = trips.findIndex((x) => x.id === trip.id);
     if (index < 0) {
         // Ei löytynyt id:llä => Uusi matka
@@ -33,14 +31,9 @@ export async function saveTrip(trip: Trip): Promise<void>;  {
         }
         return a > b ? -1 : 1;
     });
-
-    const fileuri = filesystem.documentDirectory + "ajokilsat-trips.json";
-
-    await filesystem.writeAsStringAsync(fileuri, JSON.stringify('trips'));
-    console.log("write as string");
 }
 
-export async function deleteTrip({id}: {id: string}): Promise<void> {
+export function deleteTrip({id}: {id: string}): void {
     const index = trips.findIndex((x) => x.id === id);
     if (index < 0) {
         throw new Error(`Matkaa id:llä ${id} ei löydy`);
