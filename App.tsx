@@ -5,7 +5,7 @@ import {
     PaperProvider,
 } from 'react-native-paper';
 
-import Main from './components/Main.tsx';
+import Main from './components/Main';
 import {hasSaveDirPermission} from './utils/jsonFiles';
 import SettingsScreen from './components/SettingsScreen';
 
