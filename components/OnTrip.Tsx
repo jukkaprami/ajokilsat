@@ -3,6 +3,7 @@ import {Text} from 'react-native-paper';
 import {getTrip, loadTrips} from '../utils/store';
 import {useEffect, useState} from 'react';
 import {Trip} from '../types/Trip';
+import TripForm from './TripForm';
 
 type Props = {
     route?: {params?: {tripId?: string}};
@@ -20,19 +21,19 @@ export default function OnTrip({route}: Props) {
         }
     }, [tripId]);
 
-    useEffect((() => {
+    useEffect(() => {
         async function getTripById() {
             if (tripId) {
                 getTrip(tripId).then(setTrip);
         } else {
             setTrip(null);
         }
-    }, [tripId]);
 
-    return (
+    {
+        return (
         <ScrollView>
             {trip ?
-            <Tripform initialvalue={trip}/>
+            <TripForm initialValue={trip}/>
             : null }
             <Text>Matkalla {JSON.stringify(trip)}</Text>
         </ScrollView>
