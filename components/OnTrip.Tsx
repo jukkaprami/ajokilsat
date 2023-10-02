@@ -7,6 +7,7 @@ import TripForm from './TripForm';
 
 type Props = {
     route?: {params?: {tripId?: string}};
+    onSave?: (trip: trip) => void;
 };
 
 export default function OnTrip({route}: Props) {
@@ -32,10 +33,15 @@ export default function OnTrip({route}: Props) {
     {
         return (
         <ScrollView>
-            {trip ?
-            <TripForm initialValue={trip}/>
-            : null }
-            <Text>Matkalla {JSON.stringify(trip)}</Text>
+            {trip ? (
+                <TripForm
+                    key={tripId}
+                    initialValue={trip}
+                    onSubmit={async (trip) =>
+                        {await saveTrip(trip);
+                        onSave?.(trip); }}
+                />
+            }
         </ScrollView>
     );
-}
+    }

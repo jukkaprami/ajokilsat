@@ -69,6 +69,7 @@ export default function Main() {
         );
     }
 
+    function onTripScreen({navigation, route}) {
     return (
         <NavigationContainer>
             <Nav.Navigator screenOptions={getScreenOptions}>
@@ -84,7 +85,7 @@ export default function Main() {
                 />
                 <Nav.Screen
                     name="onTrip"
-                    component={OnTrip}
+                    component={OnTripScreen}
                     options={{title: 'Matkalla...'}}
                 />
             </Nav.Navigator>
