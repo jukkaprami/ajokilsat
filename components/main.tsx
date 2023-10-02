@@ -69,7 +69,18 @@ export default function Main() {
         );
     }
 
-    function onTripScreen({navigation, route}) {
+    function OnTripScreen({navigation, route}) {
+        return (
+            <OnTrip
+                route={route}
+                onSave={async (trip: Trip) => {
+                    reloadTrips();
+                    navigation.navigate('trips');
+                }}
+            />
+        );
+    }
+
     return (
         <NavigationContainer>
             <Nav.Navigator screenOptions={getScreenOptions}>
