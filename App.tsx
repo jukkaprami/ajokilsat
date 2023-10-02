@@ -22,6 +22,7 @@ export default function App() {
     const [settingsOk, setSettingsOk] = React.useState<boolean | null>(null);
 
     async function updateSettingsOk() {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
         const hasPermission = await hasSaveDirPermission();
         setSettingsOk(hasPermission);
     }
