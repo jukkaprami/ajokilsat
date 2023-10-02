@@ -6,12 +6,22 @@ import {Trip} from '../types/Trip';
 import TripForm from './TripForm';
 
 type Props = {
+    route : {},
     trips: Trip[];
     saveTrip: (trip: Trip) => void;
     deleteTrip: (trip: Trip) => void;
 };
 
-export default function TripList({trips, saveTrip, deleteTrip}: Props) {
+ export function findIndexById<I, T extends {id: string}>(list: T[], id?: I): number | null | undefined {
+    if (id == null) return null;
+    const index = list.findIndex((x) => x.id === id);
+    return index != -1 ? index : null;
+}
+
+export default function TripList({route, trips, saveTrip, deleteTrip}: Props) {
+    const routeTripId = route?.params?.tripId ?? null;
+    const routeTripIndex = findIndexById(trips, routeTripId);
+
     const [shownIndex, setShownIndex] = useState<number | null>(null);
 
     function ListRow({item: trip, index}: {item: Trip; index: number}) {

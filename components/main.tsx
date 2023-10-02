@@ -42,7 +42,7 @@ export default function Main() {
         reloadTrips();
     }, []);
 
-    function TripListScreen() {
+    function TripListScreen(route) {
         return (
             <TripList
                 trips={trips}
@@ -51,8 +51,8 @@ export default function Main() {
                     await reloadTrips();
                 }}
                 deleteTrip={async (trip: Trip) => {
-                    await deleteTrip(trip);
                     await reloadTrips();
+                    await deleteTrip(trip);
                 }}
             />
         );
