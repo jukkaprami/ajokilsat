@@ -29,7 +29,8 @@ export default function App() {
 
     React.useEffect(() => {
         updateSettingsOk();
-    }, []);
+     }, []);
+
 
     return (
         <PaperProvider theme={theme}>
