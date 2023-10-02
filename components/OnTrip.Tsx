@@ -14,7 +14,16 @@ export default function OnTrip({route}: Props) {
 
     useEffect(() => {
         if (tripId) {
-            getTrip(tripId).then((x) => setTrip(x));
+            getTrip(tripId).then(setTrip).catch((err) => console.log(err));
+        } else {
+            setTrip(null);
+        }
+    }, [tripId]);
+
+    useEffect((() => {
+        async function getTripById() {
+            if (tripId) {
+                getTrip(tripId).then(setTrip);
         } else {
             setTrip(null);
         }
@@ -22,6 +31,9 @@ export default function OnTrip({route}: Props) {
 
     return (
         <ScrollView>
+            {trip ?
+            <Tripform initialvalue={trip}/>
+            : null }
             <Text>Matkalla {JSON.stringify(trip)}</Text>
         </ScrollView>
     );
