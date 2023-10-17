@@ -2,11 +2,13 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
+import {useState} from 'react';
+import {ActivityIndicator} from 'react-native-paper';
 
+import {useDispatch, useSelector} from '../hooks';
+import {addOrUpdateTrip, loadTrips, removeTrip} from '../store/slices/trips';
 import {Trip} from '../types/Trip';
-import {deleteTrip, loadTrips, saveTrip} from '../utils/store';
 import NewTripCreator from './NewTripCreator';
-import OnTrip from './OnTrip';
 import TripList from './TripList';
 
 const Nav = createBottomTabNavigator();
@@ -14,7 +16,6 @@ const Nav = createBottomTabNavigator();
 const tabIcons = {
     trips: ['ios-list-circle', 'ios-list-circle-outline'],
     newTrip: ['ios-car', 'ios-car-outline'],
-    onTrip: ['ios-car', 'ios-car-outline'],
 };
 
 const getScreenOptions = ({route}) => ({
@@ -31,11 +32,15 @@ const getScreenOptions = ({route}) => ({
 });
 
 export default function Main() {
-    const [trips, setTrips] = React.useState<Trip[]>([]);
+    const {list: trips, status: tripsStatus} = useSelector(
+        (state) => state.trips
+    );
+    const dispatch = useDispatch();
+
+    const [shownTripId, setShownTripId] = useState<string | null>(null);
 
     async function reloadTrips() {
-        const newTrips = await loadTrips();
-        setTrips(newTrips);
+        dispatch(loadTrips());
     }
 
     React.useEffect(() => {
@@ -43,16 +48,20 @@ export default function Main() {
     }, []);
 
     function TripListScreen() {
+        if (tripsStatus == 'loading') return <ActivityIndicator />;
         return (
             <TripList
+                shownTripId={shownTripId}
                 trips={trips}
-                saveTrip={async (trip: Trip) => {
-                    await saveTrip(trip);
-                    await reloadTrips();
+                onTripClick={(trip: Trip) => setShownTripId(trip.id)}
+                onDismiss={() => setShownTripId(null)}
+                onSave={async (trip: Trip) => {
+                    setShownTripId(null);
+                    dispatch(addOrUpdateTrip(trip));
                 }}
-                deleteTrip={async (trip: Trip) => {
-                    await deleteTrip(trip);
-                    await reloadTrips();
+                onDelete={async (trip: Trip) => {
+                    setShownTripId(null);
+                    dispatch(removeTrip(trip));
                 }}
             />
         );
@@ -62,19 +71,7 @@ export default function Main() {
         return (
             <NewTripCreator
                 onSubmit={async (trip: Trip) => {
-                    reloadTrips();
-                    navigation.navigate('onTrip', {tripId: trip.id});
-                }}
-            />
-        );
-    }
-
-    function OnTripScreen({navigation, route}) {
-        return (
-            <OnTrip
-                route={route}
-                onSave={async (trip: Trip) => {
-                    reloadTrips();
+                    setShownTripId(trip.id);
                     navigation.navigate('trips');
                 }}
             />
@@ -94,12 +91,6 @@ export default function Main() {
                     component={NewTripScreen}
                     options={{title: 'Uusi matka'}}
                 />
-                <Nav.Screen
-                    name="onTrip"
-                    component={OnTripScreen}
-                    options={{title: 'Matkalla...'}}
-                />
             </Nav.Navigator>
         </NavigationContainer>
     );
-}

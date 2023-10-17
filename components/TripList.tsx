@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList, StyleSheet, Text} from 'react-native';
 import {Button, Modal, Portal} from 'react-native-paper';
 
@@ -6,52 +6,44 @@ import {Trip} from '../types/Trip';
 import TripForm from './TripForm';
 
 type Props = {
-    route : {},
     trips: Trip[];
-    saveTrip: (trip: Trip) => void;
-    deleteTrip: (trip: Trip) => void;
+    shownTripId?: string | null;
+    onTripClick?: (trip: Trip) => void;
+    onDismiss?: (trip: Trip) => void;
+    onSave?: (trip: Trip) => void;
+    onDelete?: (trip: Trip) => void;
 };
 
- export function findIndexById<I, T extends {id: string}>(list: T[], id?: I): number | null | undefined {
-    if (id == null) return null;
-    const index = list.findIndex((x) => x.id === id);
-    return index != -1 ? index : null;
-}
-
-export default function TripList({route, trips, saveTrip, deleteTrip}: Props) {
-    const routeTripId = route?.params?.tripId ?? null;
-    const routeTripIndex = findIndexById(trips, routeTripId);
-
-    const [shownIndex, setShownIndex] = useState<number | null>(null);
-
-    function ListRow({item: trip, index}: {item: Trip; index: number}) {
+export default function TripList({
+    trips,
+    shownTripId,
+    onTripClick,
+    onDismiss,
+    onSave,
+    onDelete,
+}: Props) {
+    function ListRow({item: trip}: {item: Trip}) {
         return (
-            <Button onPress={() => setShownIndex(index)} style={styles.item}>
+            <Button onPress={() => onTripClick?.(trip)} style={styles.item}>
                 <Text style={styles.itemText}>{trip.description}</Text>
             </Button>
         );
     }
 
     function TripFormModal() {
-        const shownTrip = shownIndex !== null ? trips[shownIndex] : null;
+        const shownTrip = shownTripId
+            ? trips.find((x) => x.id === shownTripId)
+            : null;
         return (
             <Modal
-                visible={shownIndex !== null ? true : false}
-                onDismiss={() => setShownIndex(null)}
+                visible={shownTrip ? true : false}
+                onDismiss={() => onDismiss(shownTrip)}
                 contentContainerStyle={styles.container}
             >
                 <TripForm
                     initialValue={shownTrip}
-                    onSubmit={(trip: Trip) => {
-                        console.log('Tallennetaan matka:', shownIndex, trip);
-                        saveTrip(trip);
-                        setShownIndex(null);
-                    }}
-                    onDelete={() => {
-                        console.log('Poistetaan', shownIndex);
-                        deleteTrip(shownTrip);
-                        setShownIndex(null);
-                    }}
+                    onSubmit={async (trip: Trip) => onSave?.(trip)}
+                    onDelete={async () => onDelete?.(shownTrip)}
                 />
             </Modal>
         );
